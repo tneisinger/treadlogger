@@ -12,6 +12,10 @@ public class ElapsedTime {
         this.minutes = minutes;
     }
 
+    public int getMinutes() {
+        return this.minutes;
+    }
+
     public ElapsedTime plus(ElapsedTime otherElapsedTime) {
         return new ElapsedTime(this.minutes + otherElapsedTime.minutes);
     }
@@ -24,9 +28,12 @@ public class ElapsedTime {
 
         String result = "";
         if (days > 0) {
-            result += String.format("%02d", days) + ":";
+            result += days + ":" + String.format("%02d", hours) + ":";
+        } else {
+            result += hours + ":";
         }
-        result += String.format("%02d", hours) + ":" + String.format("%02d", minutes);
+        result += String.format("%02d", minutes);
+
         return result;
     }
 }
