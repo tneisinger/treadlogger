@@ -1,6 +1,9 @@
+import ui.cli.CommandLineUI;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        CommandLineUI ui = new CommandLineUI();
+        ui.run();
     }
 }
