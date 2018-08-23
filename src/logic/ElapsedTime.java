@@ -36,4 +36,19 @@ public class ElapsedTime {
 
         return result;
     }
+
+    public static ElapsedTime parse(String s) throws ElapsedTimeFormatException {
+        if (!(s.matches("\\d{1,2}:\\d{2}") || s.matches("\\d{1,2}"))) {
+            throw new ElapsedTimeFormatException("Cannot parse string to ElapsedTime: " + s);
+        }
+
+        if (s.contains(":")) {
+            String[] hoursAndMinutes = s.split(":");
+            int hours = Integer.parseInt(hoursAndMinutes[0]);
+            int minutes = Integer.parseInt(hoursAndMinutes[1]);
+            return new ElapsedTime(hours, minutes);
+        }
+
+        return new ElapsedTime(Integer.parseInt(s));
+    }
 }
