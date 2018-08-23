@@ -38,8 +38,8 @@ public class ElapsedTime {
     }
 
     public static ElapsedTime parse(String s) throws ElapsedTimeFormatException {
-        if (!(s.matches("\\d{1,2}:\\d{2}") || s.matches("\\d{1,2}"))) {
-            throw new ElapsedTimeFormatException("Cannot parse string to ElapsedTime: " + s);
+        if (!(s.matches("\\d{1,2}:[0-5]\\d") || s.matches("\\d{1,2}"))) {
+            throw new ElapsedTimeFormatException("Cannot parse '" + s+ "' to an ElapsedTime.");
         }
 
         if (s.contains(":")) {
