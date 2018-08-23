@@ -52,4 +52,38 @@ class ElapsedTimeTest {
         elapsedTime = new ElapsedTime(hours, minutes);
         assertEquals("0:03", elapsedTime.toString());
     }
+
+    @Test
+    public void testParse() {
+        String inputString1 = "2:31";
+        try {
+            ElapsedTime elapsedTime = ElapsedTime.parse(inputString1);
+            assertEquals(151, elapsedTime.getMinutes());
+        } catch (ElapsedTimeFormatException e) {
+            fail("The string " + inputString1 + " should be parsable into an ElapsedTime");
+        }
+
+        String inputString2 = "12";
+        try {
+            ElapsedTime elapsedTime = ElapsedTime.parse(inputString2);
+            assertEquals(12, elapsedTime.getMinutes());
+        } catch (ElapsedTimeFormatException e) {
+            fail("The string " + inputString2 + " should be parsable into an ElapsedTime");
+        }
+
+        final String INPUT_STRING_3 = "cannot parse this";
+        assertThrows(ElapsedTimeFormatException.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_3);
+        });
+
+        final String INPUT_STRING_4 = "321:232";
+        assertThrows(ElapsedTimeFormatException.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_4);
+        });
+
+        final String INPUT_STRING_5 = "1:92";
+        assertThrows(ElapsedTimeFormatException.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_5);
+        });
+    }
 }
