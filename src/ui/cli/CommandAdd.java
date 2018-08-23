@@ -1,7 +1,10 @@
 package ui.cli;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
+import logic.ElapsedTime;
+import logic.ElapsedTimeFormatException;
 
 import java.util.List;
 
@@ -9,9 +12,18 @@ import java.util.List;
 public class CommandAdd {
 
     @Parameter(description = "The duration of time walked followed by the distance walked in miles")
-    private List<String> timeAndDistance;
+    private List<String> commandArgs;
 
-    public List<String> getTimeAndDistance() {
-        return this.timeAndDistance;
+    public List<String> getCommandArgs() {
+        return this.commandArgs;
+    }
+
+    public ElapsedTime getElapsedTime() throws ElapsedTimeFormatException {
+        // If no command arguments were given, throw an error
+        if (this.commandArgs.isEmpty()) {
+            throw new ParameterException("You did not provide any arguments to the 'add' command.");
+        }
+
+        return ElapsedTime.parse(this.commandArgs.get(0));
     }
 }
