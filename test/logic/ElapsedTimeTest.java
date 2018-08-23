@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ElapsedTimeTest {
 
     @Test
-    public void testConstructorHourMinute() {
+    void testConstructorHourMinute() {
         int hours = 1;
         int minutes = 45;
         ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
@@ -15,14 +15,14 @@ class ElapsedTimeTest {
     }
 
     @Test
-    public void testConstructorMinute() {
+    void testConstructorMinute() {
         int minutes = 112;
         ElapsedTime elapsedTime = new ElapsedTime(minutes);
         assertEquals(minutes, elapsedTime.getMinutes());
     }
 
     @Test
-    public void testPlus() {
+    void testPlus() {
         int hours1 = 2;
         int minutes1 = 45;
         int minutes2 = 33;
@@ -34,7 +34,7 @@ class ElapsedTimeTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         int hours = 1;
         int minutes = 100;
         ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
@@ -54,7 +54,7 @@ class ElapsedTimeTest {
     }
 
     @Test
-    public void testParse() {
+    void testParse() {
         String inputString1 = "2:31";
         try {
             ElapsedTime elapsedTime = ElapsedTime.parse(inputString1);
