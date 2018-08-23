@@ -2,6 +2,8 @@ package ui.cli;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
+import com.beust.jcommander.ParameterException;
+import logic.ElapsedTimeFormatException;
 
 public class CommandLineUI {
 
@@ -31,12 +33,15 @@ public class CommandLineUI {
             return;
         }
 
-        System.out.println("The parsed command was: " + this.jCommander.getParsedCommand());
-
-        String time = this.commandAdd.getTimeAndDistance().get(0);
-        String distance = this.commandAdd.getTimeAndDistance().get(1);
-        System.out.println("The time was: " + time);
-        System.out.println("The distance was: " + distance);
-
+        // Run the command the was parsed by JCommander
+        switch (this.jCommander.getParsedCommand()) {
+            case "add":
+                try {
+                    this.commandAdd.run();
+                } catch (ElapsedTimeFormatException | ParameterException e) {
+                    System.out.println(e.getMessage());
+                    break;
+                }
+        }
     }
 }
