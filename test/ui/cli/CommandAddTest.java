@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommandAddTest {
 
     @Test
-    void testRun() {
+    void run_unparseableElapsedTime() {
         CommandAdd commandAdd = new CommandAdd();
         JCommander jCommander = JCommander.newBuilder()
                 .addCommand("add", commandAdd)
@@ -18,6 +18,6 @@ class CommandAddTest {
         String[] args = new String[]{"add", "unparseable", "1.0"};
         jCommander.parse(args);
 
-        assertThrows(ElapsedTimeFormatException.class, commandAdd::run);
+        assertThrows(Exception.class, commandAdd::run);
     }
 }
