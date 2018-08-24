@@ -32,4 +32,11 @@ class CommandAddTest {
         this.jCommander.parse(args);
         assertThrows(Exception.class, commandAdd::run);
     }
+
+    @Test
+    void run_noDistanceGiven() {
+        String[] args = new String[]{"add", "1:11"};
+        this.jCommander.parse(args);
+        assertThrows(Exception.class, commandAdd::run);
+    }
 }
