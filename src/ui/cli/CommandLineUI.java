@@ -20,7 +20,7 @@ public class CommandLineUI {
         try {
             this.jCommander.parse(args);
         } catch (MissingCommandException e) {
-            System.out.println("An unrecognized treadlogger command was given. The valid commands are: ");
+            System.out.println("Error: An unrecognized command was given. The valid commands are: ");
             for (String command : this.jCommander.getCommands().keySet()) {
                 System.out.println("  " + command);
             }
@@ -39,7 +39,7 @@ public class CommandLineUI {
                 try {
                     this.commandAdd.run();
                 } catch (ElapsedTimeFormatException | ParameterException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                     break;
                 }
         }
