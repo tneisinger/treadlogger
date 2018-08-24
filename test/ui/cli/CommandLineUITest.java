@@ -26,9 +26,9 @@ class CommandLineUITest {
     }
 
     @Test
-    void testConstructorNonExistentCommand() {
-        String[] args = new String[]{"NonExistentCommand", "arg1", "arg2"};
+    void CommandLineUI_BadCommand() {
+        String[] args = new String[]{"BadCommand", "arg1", "arg2"};
         CommandLineUI ui = new CommandLineUI(args);
-        assertTrue(this.outContent.toString().startsWith("An unrecognized treadlogger command was given."));
+        assertTrue(this.outContent.toString().startsWith("Error:"));
     }
 }
