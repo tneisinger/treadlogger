@@ -23,8 +23,18 @@ public class CommandAdd {
         return ElapsedTime.parse(this.commandArgs.get(0));
     }
 
-   public void run() throws ElapsedTimeFormatException {
+    private double getDistance() throws NumberFormatException {
+        // If a second argument wasn't given, throw an exception
+        if (this.commandArgs == null || this.commandArgs.size() < 2) {
+            throw new ParameterException("You did not provide a distance argument to the 'add' command.");
+        }
+        return Double.parseDouble(this.commandArgs.get(1));
+    }
+
+   public void run() throws ElapsedTimeFormatException, ParameterException, NumberFormatException {
        ElapsedTime elapsedTime = this.getElapsedTime();
+       double distance = this.getDistance();
        System.out.println("Got this elapsed time: " + elapsedTime);
+       System.out.println("Got this distance: " + distance);
    }
 }
