@@ -14,14 +14,6 @@ public class CommandAdd {
     @Parameter(description = "The duration of time walked followed by the distance walked in miles")
     private List<String> commandArgs;
 
-    public void setCommandArgs(List<String> commandArgs) {
-        this.commandArgs = commandArgs;
-    }
-
-    public List<String> getCommandArgs() {
-        return this.commandArgs;
-    }
-
     public ElapsedTime getElapsedTime() throws ElapsedTimeFormatException {
         // If no command arguments were given, throw an error
         if (this.commandArgs == null || this.commandArgs.isEmpty()) {
