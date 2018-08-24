@@ -22,7 +22,7 @@ class ElapsedTimeTest {
     }
 
     @Test
-    void testPlus() {
+    void plus() {
         int hours1 = 2;
         int minutes1 = 45;
         int minutes2 = 33;
