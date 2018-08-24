@@ -58,36 +58,40 @@ class ElapsedTimeTest {
     }
 
     @Test
-    void testParse() {
+    void parse_2colon31() throws Exception {
         String inputString1 = "2:31";
-        try {
-            ElapsedTime elapsedTime = ElapsedTime.parse(inputString1);
-            assertEquals(151, elapsedTime.getMinutes());
-        } catch (ElapsedTimeFormatException e) {
-            fail("The string " + inputString1 + " should be parsable into an ElapsedTime");
-        }
+        ElapsedTime elapsedTime = ElapsedTime.parse(inputString1);
+        assertEquals(151, elapsedTime.getMinutes());
+    }
 
+    @Test
+    void parse_12() throws Exception {
         String inputString2 = "12";
-        try {
-            ElapsedTime elapsedTime = ElapsedTime.parse(inputString2);
-            assertEquals(12, elapsedTime.getMinutes());
-        } catch (ElapsedTimeFormatException e) {
-            fail("The string " + inputString2 + " should be parsable into an ElapsedTime");
-        }
+        ElapsedTime elapsedTime = ElapsedTime.parse(inputString2);
+        assertEquals(12, elapsedTime.getMinutes());
+    }
 
-        final String INPUT_STRING_3 = "cannot parse this";
-        assertThrows(ElapsedTimeFormatException.class, () -> {
-            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_3);
+    @Test
+    void parse_cannotParseThis() {
+        String string = "cannotParseThis";
+        assertThrows(Exception.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(string);
         });
+    }
 
-        final String INPUT_STRING_4 = "321:232";
-        assertThrows(ElapsedTimeFormatException.class, () -> {
-            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_4);
+    @Test
+    void parse_321colon232() {
+        String string = "321:232";
+        assertThrows(Exception.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(string);
         });
+    }
 
-        final String INPUT_STRING_5 = "1:92";
-        assertThrows(ElapsedTimeFormatException.class, () -> {
-            ElapsedTime elapsedTime = ElapsedTime.parse(INPUT_STRING_5);
+    @Test
+    void parse_1colon92() {
+        String string = "1:92";
+        assertThrows(Exception.class, () -> {
+            ElapsedTime elapsedTime = ElapsedTime.parse(string);
         });
     }
 }
