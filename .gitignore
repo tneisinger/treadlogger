@@ -77,7 +77,9 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/intellij
 
-# ignore the idea files
+# ignore the idea files and iml files
 .idea
-
 *.iml
+
+# ignore my bash script for testing the command line interface
+cli_test.sh
