@@ -14,7 +14,7 @@ public class CommandAdd {
     @Parameter(description = "The duration of time walked followed by the distance walked in miles")
     private List<String> commandArgs;
 
-    public ElapsedTime getElapsedTime() throws ElapsedTimeFormatException {
+    private ElapsedTime getElapsedTime() throws ElapsedTimeFormatException {
         // If no command arguments were given, throw an error
         if (this.commandArgs == null || this.commandArgs.isEmpty()) {
             throw new ParameterException("You did not provide any arguments to the 'add' command.");
