@@ -34,22 +34,26 @@ class ElapsedTimeTest {
     }
 
     @Test
-    void testToString() {
+    void toString_1Hour100Minutes() {
         int hours = 1;
         int minutes = 100;
         ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
         assertEquals("2:40", elapsedTime.toString());
+    }
 
-
-        hours = 33;
-        minutes = 11;
-        elapsedTime = new ElapsedTime(hours, minutes);
+    @Test
+    void toString_33Hours11Minutes() {
+        int hours = 33;
+        int minutes = 11;
+        ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
         assertEquals("1:09:11", elapsedTime.toString());
+    }
 
-
-        hours = 0;
-        minutes = 3;
-        elapsedTime = new ElapsedTime(hours, minutes);
+    @Test
+    void toString_zeroHours3Minutes() {
+        int hours = 0;
+        int minutes = 3;
+        ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
         assertEquals("0:03", elapsedTime.toString());
     }
 
