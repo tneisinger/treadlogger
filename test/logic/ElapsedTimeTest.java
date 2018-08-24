@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ElapsedTimeTest {
 
     @Test
-    void testConstructorHourMinute() {
+    void ElapsedTime_hoursAndMinutes() {
         int hours = 1;
         int minutes = 45;
         ElapsedTime elapsedTime = new ElapsedTime(hours, minutes);
@@ -15,7 +15,7 @@ class ElapsedTimeTest {
     }
 
     @Test
-    void testConstructorMinute() {
+    void ElapsedTime_MinutesOnly() {
         int minutes = 112;
         ElapsedTime elapsedTime = new ElapsedTime(minutes);
         assertEquals(minutes, elapsedTime.getMinutes());
