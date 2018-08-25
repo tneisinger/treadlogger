@@ -4,7 +4,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import logic.ElapsedTime;
-import logic.ElapsedTimeFormatException;
+import logic.ElapsedTimeParseException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,7 +25,7 @@ public class CommandAdd {
     @Parameter(names = {"--notime", "-n"}, description = "Do not include a log time when adding this data")
     private boolean noLogTime = false;
 
-    private ElapsedTime getElapsedTime() throws ElapsedTimeFormatException {
+    private ElapsedTime parseElapsedTime() throws ElapsedTimeParseException {
         // If no command arguments were given, throw an error
         if (this.commandArgs == null || this.commandArgs.isEmpty()) {
             throw new ParameterException("You did not provide any arguments to the 'add' command.");
@@ -34,7 +34,7 @@ public class CommandAdd {
         return ElapsedTime.parse(this.commandArgs.get(0));
     }
 
-    private double getDistance() throws NumberFormatException {
+    private double parseDistance() {
         // If a second argument wasn't given, throw an exception
         if (this.commandArgs == null || this.commandArgs.size() < 2) {
             throw new ParameterException("You did not provide a distance argument to the 'add' command.");
@@ -42,9 +42,9 @@ public class CommandAdd {
         return Double.parseDouble(this.commandArgs.get(1));
     }
 
-   public void run() throws ElapsedTimeFormatException, ParameterException, NumberFormatException {
-       ElapsedTime elapsedTime = this.getElapsedTime();
-       double distance = this.getDistance();
+   public void run() throws ElapsedTimeParseException {
+       ElapsedTime elapsedTime = this.parseElapsedTime();
+       double distance = this.parseDistance();
        System.out.println("Got this elapsed time: " + elapsedTime);
        System.out.println("Got this distance: " + distance);
 
