@@ -1,7 +1,6 @@
 package ui.cli;
 
 import com.beust.jcommander.Parameter;
-import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import logic.ElapsedTime;
 import logic.ElapsedTimeParseException;
