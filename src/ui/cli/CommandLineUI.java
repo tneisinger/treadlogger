@@ -5,10 +5,14 @@ import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
 import logic.ElapsedTimeFormatException;
 
+import java.security.InvalidParameterException;
+import java.time.DateTimeException;
+
 public class CommandLineUI {
 
     private CommandAdd commandAdd;
     private JCommander jCommander;
+    private boolean preventCommandRun;
 
     public CommandLineUI(String[] args) {
         this.commandAdd = new CommandAdd();
@@ -19,17 +23,22 @@ public class CommandLineUI {
         // If an unrecognized command is parsed, handle the exception by informing the user
         try {
             this.jCommander.parse(args);
+            this.preventCommandRun = false;
         } catch (MissingCommandException e) {
             System.out.println("Error: An unrecognized command was given. The valid commands are: ");
             for (String command : this.jCommander.getCommands().keySet()) {
-                System.out.println("  " + command);
+                System.out.println("    " + command);
             }
+            this.preventCommandRun = true;
+        } catch (InvalidParameterException | DateTimeException e) {
+            System.out.println("Error: " + e.getMessage());
+            this.preventCommandRun = true;
         }
     }
 
     public void run() {
-        // If no valid command was parsed, take no further action.
-        if (this.jCommander.getParsedCommand() == null) {
+        // If the preventCommandRun attribute is set to true, do nothing
+        if (preventCommandRun) {
             return;
         }
 
