@@ -53,7 +53,7 @@ public class CommandLineUI {
             return;
         }
 
-        // Run the command the was parsed by JCommander
+        // Run the command that was parsed by JCommander
         switch (this.jCommander.getParsedCommand()) {
             case "add":
                 try {
