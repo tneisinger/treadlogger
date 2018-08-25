@@ -22,6 +22,14 @@ public class LocalDateConverter implements IStringConverter<LocalDate> {
         int day = Integer.parseInt(dateParts[1]);
         int year = 2000 + Integer.parseInt(dateParts[2]);
 
+        if (year < MIN_YEAR) {
+            throw new InvalidParameterException("The date you gave was too far in the past.");
+        }
+
+        if (year > MAX_YEAR) {
+            throw new InvalidParameterException("The date you gave was too far in the future.");
+        }
+
         return LocalDate.of(year, month, day);
     }
 }
