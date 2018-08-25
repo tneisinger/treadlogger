@@ -37,9 +37,9 @@ public class ElapsedTime {
         return result;
     }
 
-    public static ElapsedTime parse(String s) throws ElapsedTimeFormatException {
+    public static ElapsedTime parse(String s) throws ElapsedTimeParseException {
         if (!(s.matches("\\d{1,2}:[0-5]\\d") || s.matches("\\d{1,2}"))) {
-            throw new ElapsedTimeFormatException("Cannot parse '" + s+ "' to an ElapsedTime.");
+            throw new ElapsedTimeParseException("Cannot parse '" + s+ "' to an ElapsedTime.");
         }
 
         if (s.contains(":")) {
