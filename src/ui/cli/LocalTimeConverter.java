@@ -2,15 +2,14 @@ package ui.cli;
 
 import com.beust.jcommander.IStringConverter;
 
-import java.security.InvalidParameterException;
 import java.time.LocalTime;
 
 public class LocalTimeConverter implements IStringConverter<LocalTime> {
 
     @Override
-    public LocalTime convert(String s) throws InvalidParameterException {
+    public LocalTime convert(String s) {
         if (!s.toLowerCase().matches("\\d{1,2}:\\d{2}(a|p)m")) {
-            throw new InvalidParameterException("The time you provided was not formatted properly. (Example: 3:45pm");
+            throw new IllegalArgumentException("The time you provided was not formatted properly. (Example: 3:45pm");
         }
 
         String[] timeParts = s.toLowerCase().split(":");

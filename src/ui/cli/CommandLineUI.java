@@ -3,16 +3,13 @@ package ui.cli;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
-import logic.ElapsedTimeFormatException;
-
-import java.security.InvalidParameterException;
-import java.time.DateTimeException;
+import logic.ElapsedTimeParseException;
 
 public class CommandLineUI {
 
     private CommandAdd commandAdd;
     private JCommander jCommander;
-    private boolean preventCommandRun;
+    private boolean preventRun;
 
     public CommandLineUI(String[] args) {
         this.commandAdd = new CommandAdd();
@@ -20,25 +17,39 @@ public class CommandLineUI {
                 .addCommand("add", this.commandAdd)
                 .build();
 
+        // Make jCommander case insensitive.
+        this.jCommander.setCaseSensitiveOptions(false);
+
         // If an unrecognized command is parsed, handle the exception by informing the user
         try {
             this.jCommander.parse(args);
-            this.preventCommandRun = false;
+            this.preventRun = false;
         } catch (MissingCommandException e) {
             System.out.println("Error: An unrecognized command was given. The valid commands are: ");
-            for (String command : this.jCommander.getCommands().keySet()) {
-                System.out.println("    " + command);
-            }
-            this.preventCommandRun = true;
-        } catch (InvalidParameterException | DateTimeException e) {
+            this.printCommands("    ");
+            this.preventRun = true;
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-            this.preventCommandRun = true;
+            this.preventRun = true;
+        }
+    }
+
+    private void printCommands(String leaderString) {
+        for (String command : this.jCommander.getCommands().keySet()) {
+            System.out.println(leaderString + command);
         }
     }
 
     public void run() {
-        // If the preventCommandRun attribute is set to true, do nothing
-        if (preventCommandRun) {
+        // If the preventRun attribute is set to true, do nothing
+        if (this.preventRun) {
+            return;
+        }
+
+        // If no command was given, inform the user and do nothing else
+        if (this.jCommander.getParsedCommand() == null) {
+            System.out.println("Error: No command was given. The valid commands are: ");
+            this.printCommands("    ");
             return;
         }
 
@@ -47,7 +58,7 @@ public class CommandLineUI {
             case "add":
                 try {
                     this.commandAdd.run();
-                } catch (ElapsedTimeFormatException | ParameterException e) {
+                } catch (ElapsedTimeParseException | ParameterException e) {
                     System.out.println("Error: " + e.getMessage());
                     break;
                 }
