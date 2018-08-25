@@ -25,24 +25,35 @@ public class CommandAdd {
     @Parameter(names = {"--notime", "-n"}, description = "Do not include a log time when adding this data")
     private boolean noLogTime = false;
 
-    private ElapsedTime parseElapsedTime() throws ElapsedTimeParseException {
+    private ElapsedTime parseElapsedTime() {
         // If no command arguments were given, throw an error
         if (this.commandArgs == null || this.commandArgs.isEmpty()) {
-            throw new ParameterException("You did not provide any arguments to the 'add' command.");
+            throw new IllegalArgumentException("You did not provide any arguments to the 'add' command.");
         }
 
-        return ElapsedTime.parse(this.commandArgs.get(0));
+        try {
+            return ElapsedTime.parse(this.commandArgs.get(0));
+        } catch (ElapsedTimeParseException e) {
+            throw new IllegalArgumentException("The first argument of 'add' is the time walked.  It must be an " +
+                    "integer (minutes), or two integers separated by a colon (hours:minutes)");
+        }
     }
 
     private double parseDistance() {
         // If a second argument wasn't given, throw an exception
         if (this.commandArgs == null || this.commandArgs.size() < 2) {
-            throw new ParameterException("You did not provide a distance argument to the 'add' command.");
+            throw new IllegalArgumentException("You did not provide a distance argument to the 'add' command.");
         }
-        return Double.parseDouble(this.commandArgs.get(1));
+
+        try {
+            return Double.parseDouble(this.commandArgs.get(1));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("The second argument to the 'add' command must be a number " +
+                    "representing the distance walked.");
+        }
     }
 
-   public void run() throws ElapsedTimeParseException {
+   public void run() {
        ElapsedTime elapsedTime = this.parseElapsedTime();
        double distance = this.parseDistance();
        System.out.println("Got this elapsed time: " + elapsedTime);

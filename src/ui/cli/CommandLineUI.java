@@ -58,7 +58,7 @@ public class CommandLineUI {
             case "add":
                 try {
                     this.commandAdd.run();
-                } catch (ElapsedTimeParseException | ParameterException e) {
+                } catch (IllegalArgumentException e) {
                     System.out.println("Error: " + e.getMessage());
                     break;
                 }
