@@ -35,7 +35,7 @@ public class CommandAdd {
             return ElapsedTime.parse(this.commandArgs.get(0));
         } catch (ElapsedTimeParseException e) {
             throw new IllegalArgumentException("The first argument of 'add' is the time walked.  It must be an " +
-                    "integer (minutes), or two integers separated by a colon (hours:minutes)");
+                    "integer (minutes), or of the form 'hours:minutes' (2:31)");
         }
     }
 

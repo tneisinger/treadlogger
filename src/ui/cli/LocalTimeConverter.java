@@ -2,14 +2,18 @@ package ui.cli;
 
 import com.beust.jcommander.IStringConverter;
 
+import java.time.DateTimeException;
 import java.time.LocalTime;
 
 public class LocalTimeConverter implements IStringConverter<LocalTime> {
 
     @Override
     public LocalTime convert(String s) {
+        IllegalArgumentException exception =
+                new IllegalArgumentException("Time was not properly formatted. (Proper format example: 3:45pm)");
+
         if (!s.toLowerCase().matches("\\d{1,2}:\\d{2}(a|p)m")) {
-            throw new IllegalArgumentException("The time you provided was not formatted properly. (Example: 3:45pm");
+            throw exception;
         }
 
         String[] timeParts = s.toLowerCase().split(":");
@@ -25,6 +29,10 @@ public class LocalTimeConverter implements IStringConverter<LocalTime> {
         // If the string ends with "pm", add 12 hours
         if (timeParts[1].substring(2,3).equals("p")) hour += 12;
 
-        return LocalTime.of(hour, minute);
+        try {
+            return LocalTime.of(hour, minute);
+        } catch (DateTimeException e) {
+            throw exception;
+        }
     }
 }
