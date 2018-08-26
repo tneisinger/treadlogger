@@ -4,6 +4,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import logic.ElapsedTime;
 import logic.ElapsedTimeParseException;
+import logic.db.SqliteDB;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,6 +24,12 @@ public class CommandAdd {
 
     @Parameter(names = {"--notime", "-n"}, description = "Do not include a log time when adding this data")
     private boolean noLogTime = false;
+
+    private SqliteDB db;
+
+    public CommandAdd(SqliteDB db) {
+        this.db = db;
+    }
 
     private ElapsedTime parseElapsedTime() {
         // If no command arguments were given, throw an error

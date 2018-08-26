@@ -2,6 +2,7 @@ package ui.cli;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
+import logic.db.SqliteDB;
 
 public class CommandLineUI {
 
@@ -10,7 +11,9 @@ public class CommandLineUI {
     private boolean preventRun;
 
     public CommandLineUI(String[] args) {
-        this.commandAdd = new CommandAdd();
+
+        SqliteDB db = new SqliteDB();
+        this.commandAdd = new CommandAdd(db);
         this.jCommander = JCommander.newBuilder()
                 .addCommand("add", this.commandAdd)
                 .build();
