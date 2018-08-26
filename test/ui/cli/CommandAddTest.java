@@ -1,6 +1,7 @@
 package ui.cli;
 
 import com.beust.jcommander.JCommander;
+import logic.db.SqliteDB;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,8 @@ class CommandAddTest {
 
     @BeforeEach
     void setUp() {
-        this.commandAdd = new CommandAdd();
+        SqliteDB db = new SqliteDB();
+        this.commandAdd = new CommandAdd(db);
         this.jCommander = JCommander.newBuilder()
                 .addCommand("add", this.commandAdd)
                 .build();
