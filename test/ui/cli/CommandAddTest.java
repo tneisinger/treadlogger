@@ -41,4 +41,11 @@ class CommandAddTest {
         this.jCommander.parse(args);
         assertThrows(Exception.class, commandAdd::run);
     }
+
+    @Test
+    void run_unparseableDistance() {
+        String[] args = new String[]{"add", "1:11", "unparseable"};
+        this.jCommander.parse(args);
+        assertThrows(Exception.class, commandAdd::run);
+    }
 }
