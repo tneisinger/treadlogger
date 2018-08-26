@@ -83,3 +83,6 @@ fabric.properties
 
 # ignore my bash script for testing the command line interface
 cli_test.sh
+
+# ignore the sqlite3 files
+*.sqlite3
