@@ -22,8 +22,8 @@ public class CommandAdd {
     @Parameter(names = {"--time", "-t"}, converter = LocalTimeConverter.class)
     private LocalTime time;
 
-    @Parameter(names = {"--notime", "-n"}, description = "Do not include a log time when adding this data")
-    private boolean noLogTime = false;
+    @Parameter(names = {"--includeTime", "-i"}, description = "include a log time when adding this data", arity = 1)
+    private boolean includeTime = true;
 
     private SqliteDB db;
 
@@ -67,6 +67,6 @@ public class CommandAdd {
 
        if (this.date != null) System.out.println("Got this date: " + this.date);
        if (this.time != null) System.out.println("Got this time: " + this.time);
-       System.out.println("The value of noLogTime was: " + this.noLogTime);
+       System.out.println("The value of includeTime: " + this.includeTime);
    }
 }
