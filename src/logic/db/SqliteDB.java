@@ -46,7 +46,6 @@ public class SqliteDB {
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table created!");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
