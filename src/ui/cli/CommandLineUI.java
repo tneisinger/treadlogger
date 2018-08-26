@@ -2,6 +2,7 @@ package ui.cli;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
+import com.beust.jcommander.ParameterException;
 import logic.db.SqliteDB;
 
 public class CommandLineUI {
@@ -29,7 +30,7 @@ public class CommandLineUI {
             System.out.println("Error: An unrecognized command was given. The valid commands are: ");
             this.printCommands("    ");
             this.preventRun = true;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ParameterException e) {
             System.out.println("Error: " + e.getMessage());
             this.preventRun = true;
         }
