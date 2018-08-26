@@ -15,13 +15,13 @@ public class SqliteDB {
 
     public SqliteDB(String dbFilePath) {
         this.url = CONNECTION_STRING_PREFIX + dbFilePath;
-    }
-
-    public SqliteDB() {
-        this.url = CONNECTION_STRING_PREFIX + DEFAULT_DB_FILEPATH;
 
         // Setup the db tables if they do not exist
         this.setupDatabaseTables();
+    }
+
+    public SqliteDB() {
+        this(DEFAULT_DB_FILEPATH);
     }
 
     private Connection connect() {
