@@ -60,6 +60,12 @@ public class CommandAdd {
     }
 
    public void run() {
+       // If the user gave a time but also set includeTime to false, throw an exception
+       if (this.time != null && !this.includeTime) {
+           throw new IllegalArgumentException("A time was given but includeTime was set to false. "
+                   + "Your intentions are unclear. :(");
+       }
+
        ElapsedTime elapsedTime = this.parseElapsedTime();
        double distance = this.parseDistance();
        System.out.println("Got this elapsed time: " + elapsedTime);
@@ -68,5 +74,21 @@ public class CommandAdd {
        if (this.date != null) System.out.println("Got this date: " + this.date);
        if (this.time != null) System.out.println("Got this time: " + this.time);
        System.out.println("The value of includeTime: " + this.includeTime);
+
+       if (this.date == null && this.time == null) {
+           // If no date or time was given, insert the data using today's date.
+           // If this.includeTime is set to true, insert the data using the current time.
+           // If this.includeTime is set to false, insert the data without a time.
+           this.db.insertData(elapsedTime, distance, this.includeTime);
+       } else if (this.date != null && this.time == null) {
+           // If a date was given, include it in the data.
+           this.db.insertData(elapsedTime, distance, this.date, this.includeTime);
+       } else if (this.date == null && this.time != null) {
+           // If no date is given, but a time is given, insert the data using today's date
+           this.db.insertData(elapsedTime, distance, LocalDate.now(), this.time);
+       } else {
+           // If a date and a time were given, insert the data with the given date and time
+           this.db.insertData(elapsedTime, distance, this.date, this.time);
+       }
    }
 }
