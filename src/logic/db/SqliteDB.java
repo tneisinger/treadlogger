@@ -34,7 +34,7 @@ public class SqliteDB {
         return conn;
     }
 
-    public void setupDatabaseTables() {
+    private void setupDatabaseTables() {
         String sql = "CREATE TABLE IF NOT EXISTS treadDataPoints (\n"
                 + " id INTEGER PRIMARY KEY,\n"
                 + " minutes INTEGER NOT NULL, \n"
