@@ -26,7 +26,7 @@ class SqliteDBTest {
     @AfterEach
     void tearDown() {
         File dbFile = new File(TEST_DB_PATH);
-        dbFile.delete();
+        assertTrue(dbFile.delete());
     }
 
     @Test
