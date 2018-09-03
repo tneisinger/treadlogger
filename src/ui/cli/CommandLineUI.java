@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class CommandLineUI {
 
     private CommandAdd commandAdd;
+    private CommandPrintStats commandPrintStats;
     private JCommander jCommander;
     private boolean preventRun;
 
@@ -17,8 +18,10 @@ public class CommandLineUI {
 
         SqliteDB db = new SqliteDB();
         this.commandAdd = new CommandAdd(db);
+        this.commandPrintStats = new CommandPrintStats(db);
         this.jCommander = JCommander.newBuilder()
                 .addCommand("add", this.commandAdd)
+                .addCommand("printStats", this.commandPrintStats)
                 .build();
 
         // Make jCommander case insensitive.
@@ -64,14 +67,17 @@ public class CommandLineUI {
             System.out.println("Error: " + e.getMessage());
             return;
         }
-        System.out.println(message);
+        if (!message.isEmpty()) System.out.println(message);
     }
 
     private String runParsedCommand() throws SQLException {
         String message = "";
-        switch (this.jCommander.getParsedCommand()) {
+        switch (this.jCommander.getParsedCommand().toLowerCase()) {
             case "add":
                 message = this.commandAdd.run();
+                break;
+            case "printstats":
+                message = this.commandPrintStats.run();
                 break;
         }
         return message;

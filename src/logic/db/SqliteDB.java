@@ -1,11 +1,15 @@
 package logic.db;
 
 import logic.ElapsedTime;
+import logic.TreadDataPoint;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqliteDB {
     private static final String CONNECTION_STRING_PREFIX = "jdbc:sqlite:";
@@ -98,5 +102,31 @@ public class SqliteDB {
 
         pstmt.close();
         conn.close();
+    }
+
+    public List<TreadDataPoint> getDataBetweenDates(LocalDate startDate, LocalDate endDate) throws SQLException {
+        String sql = "SELECT minutes, distance, date FROM treadDataPoints " +
+                "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "'";
+
+        Connection conn = this.connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        ResultSet rs = pstmt.executeQuery();
+
+        List<TreadDataPoint> result = new ArrayList<>();
+
+        while (rs.next()) {
+            result.add(new TreadDataPoint(
+                    rs.getInt("minutes"),
+                    rs.getDouble("distance"),
+                    rs.getString("date")
+            ));
+        }
+
+
+        pstmt.close();
+        conn.close();
+
+        return result;
     }
 }

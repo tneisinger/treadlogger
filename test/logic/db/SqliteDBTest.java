@@ -1,6 +1,7 @@
 package logic.db;
 
 import logic.ElapsedTime;
+import logic.TreadDataPoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,6 +51,40 @@ class SqliteDBTest {
         this.db.insertData(new ElapsedTime(inputMinutes), inputDistance, inputDate, inputTime);
 
         assertTrue(tableHasOneRowWithTheseValues(inputMinutes, inputDistance, inputDate, inputTime));
+    }
+
+    @Test
+    void getDataBetweenDates_goodRequest() throws SQLException {
+        int inputMinutes1 = 33;
+        double inputDistance1 = 0.52;
+        LocalDate inputDate1 = LocalDate.of(2018, 8, 2);
+        LocalTime inputTime1 = LocalTime.of(2,15);
+        this.db.insertData(new ElapsedTime(inputMinutes1), inputDistance1, inputDate1, inputTime1);
+
+        int inputMinutes2 = 44;
+        double inputDistance2 = 1.52;
+        LocalDate inputDate2 = LocalDate.of(2018, 8, 26);
+        LocalTime inputTime2 = LocalTime.of(4,30);
+        this.db.insertData(new ElapsedTime(inputMinutes2), inputDistance2, inputDate2, inputTime2);
+
+        int inputMinutes3 = 77;
+        double inputDistance3 = 2.52;
+        LocalDate inputDate3 = LocalDate.of(2018, 9, 3);
+        LocalTime inputTime3 = LocalTime.of(4,59);
+        this.db.insertData(new ElapsedTime(inputMinutes3), inputDistance3, inputDate3, inputTime3);
+
+        int inputMinutes4 = 12;
+        double inputDistance4 = 0.22;
+        LocalDate inputDate4 = LocalDate.of(2018, 9, 1);
+        LocalTime inputTime4 = LocalTime.of(9,50);
+        this.db.insertData(new ElapsedTime(inputMinutes4), inputDistance4, inputDate4, inputTime4);
+
+        List<TreadDataPoint> datapoints = this.db.getDataBetweenDates(
+                LocalDate.of(2018, 8, 15),
+                LocalDate.of(2018, 9, 1)
+        );
+
+        assertEquals(2, datapoints.size());
     }
 
     private boolean tableHasOneRowWithTheseValues(int inputMinutes, double inputDistance,
