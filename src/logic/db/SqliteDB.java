@@ -51,19 +51,17 @@ public class SqliteDB {
         }
     }
 
-    public void insertData(ElapsedTime elapsedTime, double distance, boolean includeLocalTimeNow) {
+    public boolean insertData(ElapsedTime elapsedTime, double distance, boolean includeLocalTimeNow) {
         if (includeLocalTimeNow) {
-            this.insertData(elapsedTime, distance, LocalDate.now(), LocalTime.now());
-            return;
+            return this.insertData(elapsedTime, distance, LocalDate.now(), LocalTime.now());
         }
 
-        this.insertData(elapsedTime, distance, LocalDate.now(), false);
+        return this.insertData(elapsedTime, distance, LocalDate.now(), false);
     }
 
-    public void insertData(ElapsedTime elapsedTime, double distance, LocalDate date, boolean includeLocalTimeNow) {
+    public boolean insertData(ElapsedTime elapsedTime, double distance, LocalDate date, boolean includeLocalTimeNow) {
         if (includeLocalTimeNow) {
-            this.insertData(elapsedTime, distance, date, LocalTime.now());
-            return;
+            return this.insertData(elapsedTime, distance, date, LocalTime.now());
         }
 
         String sql = "INSERT INTO treadDataPoints(minutes,distance,date) VALUES(?,?,?)";
@@ -74,12 +72,14 @@ public class SqliteDB {
             pstmt.setDouble(2, distance);
             pstmt.setString(3, date.toString());
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
+            return false;
         }
     }
 
-    public void insertData(ElapsedTime elapsedTime, double distance, LocalDate date, LocalTime time) {
+    public boolean insertData(ElapsedTime elapsedTime, double distance, LocalDate date, LocalTime time) {
         String sql = "INSERT INTO treadDataPoints(minutes,distance,date,time) VALUES(?,?,?,?)";
 
         try (Connection conn = this.connect();
@@ -89,8 +89,10 @@ public class SqliteDB {
             pstmt.setString(3, date.toString());
             pstmt.setString(4, time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
+            return false;
         }
     }
 }
