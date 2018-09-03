@@ -51,48 +51,52 @@ public class SqliteDB {
         }
     }
 
-    public boolean insertData(ElapsedTime elapsedTime, double distance, boolean includeLocalTimeNow) {
+    public void insertData(ElapsedTime elapsedTime, double distance, boolean includeLocalTimeNow) throws SQLException {
         if (includeLocalTimeNow) {
-            return this.insertData(elapsedTime, distance, LocalDate.now(), LocalTime.now());
+            this.insertData(elapsedTime, distance, LocalDate.now(), LocalTime.now());
+            return;
         }
 
-        return this.insertData(elapsedTime, distance, LocalDate.now(), false);
+        this.insertData(elapsedTime, distance, LocalDate.now(), false);
     }
 
-    public boolean insertData(ElapsedTime elapsedTime, double distance, LocalDate date, boolean includeLocalTimeNow) {
+    public void insertData(ElapsedTime elapsedTime, double distance, LocalDate date, boolean includeLocalTimeNow)
+            throws SQLException {
+
         if (includeLocalTimeNow) {
-            return this.insertData(elapsedTime, distance, date, LocalTime.now());
+            this.insertData(elapsedTime, distance, date, LocalTime.now());
+            return;
         }
 
         String sql = "INSERT INTO treadDataPoints(minutes,distance,date) VALUES(?,?,?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, elapsedTime.getMinutes());
-            pstmt.setDouble(2, distance);
-            pstmt.setString(3, date.toString());
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-            return false;
-        }
+        Connection conn = this.connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setInt(1, elapsedTime.getMinutes());
+        pstmt.setDouble(2, distance);
+        pstmt.setString(3, date.toString());
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        conn.close();
     }
 
-    public boolean insertData(ElapsedTime elapsedTime, double distance, LocalDate date, LocalTime time) {
+    public void insertData(ElapsedTime elapsedTime, double distance, LocalDate date, LocalTime time)
+            throws SQLException {
+
         String sql = "INSERT INTO treadDataPoints(minutes,distance,date,time) VALUES(?,?,?,?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, elapsedTime.getMinutes());
-            pstmt.setDouble(2, distance);
-            pstmt.setString(3, date.toString());
-            pstmt.setString(4, time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-            return false;
-        }
+        Connection conn = this.connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setInt(1, elapsedTime.getMinutes());
+        pstmt.setDouble(2, distance);
+        pstmt.setString(3, date.toString());
+        pstmt.setString(4, time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        conn.close();
     }
 }

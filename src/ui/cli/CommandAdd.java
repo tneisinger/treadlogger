@@ -6,6 +6,7 @@ import logic.ElapsedTime;
 import logic.ElapsedTimeParseException;
 import logic.db.SqliteDB;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -66,13 +67,15 @@ public class CommandAdd {
                    + "Your intentions are unclear. :(");
        }
 
-       boolean dataAddedToDB = this.addDataToDB();
-
-       if (dataAddedToDB) System.out.println("Data added successfully!");
-       else System.out.println("Data");
+       try {
+           this.addDataToDB();
+           System.out.println("Data added successfully!");
+       } catch (SQLException e) {
+           System.out.println("Error: " + e.getMessage());
+       }
    }
 
-   private boolean addDataToDB() {
+   private void addDataToDB() throws SQLException {
        ElapsedTime elapsedTime = this.parseElapsedTime();
        double distance = this.parseDistance();
 
@@ -80,16 +83,16 @@ public class CommandAdd {
            // If no date or time was given, insert the data using today's date.
            // If this.includeTime is set to true, insert the data using the current time.
            // If this.includeTime is set to false, insert the data without a time.
-           return this.db.insertData(elapsedTime, distance, this.includeTime);
+           this.db.insertData(elapsedTime, distance, this.includeTime);
        } else if (this.date != null && this.time == null) {
            // If a date was given, include it in the data.
-           return this.db.insertData(elapsedTime, distance, this.date, this.includeTime);
+           this.db.insertData(elapsedTime, distance, this.date, this.includeTime);
        } else if (this.date == null && this.time != null) {
            // If no date is given, but a time is given, insert the data using today's date
-           return this.db.insertData(elapsedTime, distance, LocalDate.now(), this.time);
+           this.db.insertData(elapsedTime, distance, LocalDate.now(), this.time);
        } else {
            // If a date and a time were given, insert the data with the given date and time
-           return this.db.insertData(elapsedTime, distance, this.date, this.time);
+           this.db.insertData(elapsedTime, distance, this.date, this.time);
        }
    }
 }
