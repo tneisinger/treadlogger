@@ -37,6 +37,14 @@ public class ElapsedTime {
         return result;
     }
 
+    public String toVerboseString() {
+        int days = this.minutes / (60*24);
+        int hours = (this.minutes % (60*24)) / 60;
+        int minutes = this.minutes % 60;
+
+        return String.format("%d days, %d hours, and %d minutes", days, hours, minutes);
+    }
+
     public static ElapsedTime parse(String s) throws ElapsedTimeParseException {
         if (!(s.matches("\\d{1,2}:[0-5]\\d") || s.matches("\\d{1,2}"))) {
             throw new ElapsedTimeParseException("Cannot parse '" + s+ "' to an ElapsedTime.");

@@ -38,7 +38,7 @@ public class CommandPrintStats {
             totalDistance += dataPoint.getDistance();
         }
 
-        String message = String.format("Total time: %s\n", totalTime);
+        String message = String.format("Total time: %s\n", totalTime.toVerboseString());
         message += String.format("Total distance: %.2f miles", totalDistance);
         return message;
     }
