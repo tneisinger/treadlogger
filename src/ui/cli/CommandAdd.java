@@ -60,19 +60,16 @@ public class CommandAdd {
         }
     }
 
-   public void run() {
+   public String run() throws SQLException {
        // If the user gave a time but also set includeTime to false, throw an exception
        if (this.time != null && !this.includeTime) {
            throw new IllegalArgumentException("A time was given but includeTime was set to false. "
                    + "Your intentions are unclear. :(");
        }
 
-       try {
-           this.addDataToDB();
-           System.out.println("Data added successfully!");
-       } catch (SQLException e) {
-           System.out.println("Error: " + e.getMessage());
-       }
+       this.addDataToDB();
+
+       return "Data added successfully!";
    }
 
    private void addDataToDB() throws SQLException {

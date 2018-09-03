@@ -5,6 +5,8 @@ import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
 import logic.db.SqliteDB;
 
+import java.sql.SQLException;
+
 public class CommandLineUI {
 
     private CommandAdd commandAdd;
@@ -55,15 +57,23 @@ public class CommandLineUI {
             return;
         }
 
-        // Run the command that was parsed by JCommander
+        String message = "";
+        try {
+            message = this.runParsedCommand();
+        } catch (Exception e) {
+            System.out.println("Error :" + e.getMessage());
+            return;
+        }
+        System.out.println(message);
+    }
+
+    private String runParsedCommand() throws SQLException {
+        String message = "";
         switch (this.jCommander.getParsedCommand()) {
             case "add":
-                try {
-                    this.commandAdd.run();
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Error: " + e.getMessage());
-                    break;
-                }
+                message = this.commandAdd.run();
+                break;
         }
+        return message;
     }
 }
