@@ -61,7 +61,7 @@ public class CommandLineUI {
         try {
             message = this.runParsedCommand();
         } catch (Exception e) {
-            System.out.println("Error :" + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return;
         }
         System.out.println(message);
