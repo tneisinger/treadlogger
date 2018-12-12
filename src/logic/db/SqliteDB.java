@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SqliteDB {
     private static final String CONNECTION_STRING_PREFIX = "jdbc:sqlite:";
-    private static final String DEFAULT_DB_FILEPATH = System.getProperty("user.home") + "/treadlogger.sqlite3";
+    private static final String DEFAULT_DB_FILEPATH = System.getProperty("user.home") + "/treadlog.sqlite3";
 
     private String url;
 
